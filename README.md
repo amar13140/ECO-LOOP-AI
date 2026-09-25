@@ -1,47 +1,52 @@
 # ECO-LOOP-AI
-# 🤖 AI Resume Analyzer
+# ♻️ EcoLoop AI
 
-An AI-inspired web application that analyzes a resume against a target job role and provides a resume score, job-match percentage, resume type, and improvement suggestions.
+### AI-Powered Smart Recycling & Rewards Platform
 
-## 🚀 Live Demo
+EcoLoop AI is a modern web application designed to make recycling easier, smarter, and more rewarding.
 
-Add your deployed website link here:
+The platform helps users identify recyclable waste, find nearby recycling centers, track their environmental impact, and earn EcoPoints for responsible recycling actions.
 
-https://your-username.github.io/ai-resume-analyzer/
+---
 
-## 📌 About the Project
+## 🌱 Project Overview
 
-AI Resume Analyzer helps students and job seekers understand how well their resume matches a particular job role.
+Recycling can be difficult when people are unsure whether an item is recyclable or where they should dispose of it.
 
-Users can enter their resume content and target job position. The application analyzes important skills, keywords, projects, experience, internships, and other resume information to generate useful feedback.
+EcoLoop AI aims to solve this problem through a simple digital platform that combines:
+
+- 🤖 AI-powered waste identification
+- 📍 Recycling center discovery
+- ⭐ EcoPoints and rewards
+- 📊 Environmental impact tracking
+- 🌱 Sustainable behavior encouragement
+
+The project is designed as an MVP/prototype for demonstrating how AI and web technology can encourage better recycling habits.
+
+---
 
 ## ✨ Features
 
-- 📄 Resume text analysis
-- 🎯 Job-specific matching
-- 📊 Resume score
-- 💼 Job-match percentage
-- 🧠 Resume type detection
-- 💡 Personalized improvement suggestions
-- 🔍 Skill and keyword analysis
-- 📱 Responsive design
-- ⚡ Fast browser-based processing
-- 🎨 Modern and user-friendly interface
+### 🤖 AI Waste Scanner
 
-## 🛠️ Technologies Used
+Upload an image of waste and receive a simulated AI classification such as:
 
-- HTML5
-- CSS3
-- JavaScript
-- Local browser processing
-- Responsive Web Design
+- Plastic Bottle
+- Paper / Cardboard
+- Metal Can
+- Glass Container
 
-## 📂 Project Structure
+The scanner also provides a confidence percentage and recycling recommendation.
+
+### ⭐ EcoPoints
+
+Users receive EcoPoints for recycling activities.
+
+Example:
 
 ```text
-AI-Resume-Analyzer/
-│
-├── index.html
-├── style.css
-├── script.js
-└── README.md
+Recycle an item
+      ↓
++25 EcoPoints
+      ↓
+Update environmental impact
