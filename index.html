@@ -1,794 +1,781 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
     <meta name="description"
-          content="EcoLoop AI - Smart recycling powered by artificial intelligence. Scan waste, find recycling centers and earn EcoPoints.">
+          content="EcoLoop AI - Smart AI powered waste management and recycling assistant">
 
-    <title>EcoLoop AI | Smart Recycling</title>
+    <title>EcoLoop AI</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 
+    <!-- TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+
+    <!-- MobileNet -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
 
-<!-- =========================
-     APP HEADER
-========================= -->
+<!-- ================= LOGIN SCREEN ================= -->
 
-<header class="header">
+<div id="authScreen" class="auth-screen">
 
-    <div class="logo">
-        <div class="logo-icon">♻</div>
-        <div>
-            <strong>EcoLoop</strong>
-            <span>AI</span>
-        </div>
-    </div>
+    <div class="auth-card">
 
-    <nav>
-
-        <a href="#dashboard">Dashboard</a>
-        <a href="#scanner">AI Scanner</a>
-        <a href="#rewards">Rewards</a>
-        <a href="#centers">Centers</a>
-
-    </nav>
-
-    <div class="header-actions">
-
-        <button
-            class="icon-btn"
-            id="themeBtn"
-            title="Toggle theme">
-            🌙
-        </button>
-
-        <button class="profile">
-            A
-        </button>
-
-    </div>
-
-</header>
-
-
-<!-- =========================
-     MAIN APP
-========================= -->
-
-<main>
-
-
-<!-- HERO / DASHBOARD -->
-
-<section class="hero" id="dashboard">
-
-    <div class="hero-text">
-
-        <div class="status">
-            ● AI RECYCLING ASSISTANT ONLINE
+        <div class="logo">
+            <div class="logo-icon">♻️</div>
+            <h1>EcoLoop <span>AI</span></h1>
         </div>
 
-        <h1>
-            Make every piece of
-            <span>waste count.</span>
-        </h1>
-
-        <p>
-            Identify waste with AI, find the right recycling
-            option and earn rewards for every responsible action.
+        <p class="auth-subtitle">
+            Smart waste management powered by AI
         </p>
 
-        <div class="hero-buttons">
+        <!-- LOGIN -->
 
-            <a href="#scanner" class="primary-btn">
-                🤖 Scan Waste
-            </a>
+        <div id="loginForm">
 
-            <a href="#centers" class="secondary-btn">
-                📍 Find Centers
-            </a>
+            <h2>Welcome Back 👋</h2>
 
-        </div>
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Email address">
 
-    </div>
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Password">
 
-
-    <!-- Dashboard card -->
-
-    <div class="dashboard-card">
-
-        <div class="card-top">
-
-            <div>
-                <small>Your Eco Impact</small>
-                <h2 id="pointsDisplay">250</h2>
-                <span>EcoPoints</span>
-            </div>
-
-            <div class="points-icon">
-                ⭐
-            </div>
-
-        </div>
-
-        <div class="progress-title">
-            <span>Next reward</span>
-            <span id="progressText">250 / 500</span>
-        </div>
-
-        <div class="progress">
-            <div id="progressBar"></div>
-        </div>
-
-        <div class="mini-stats">
-
-            <div>
-                <strong id="itemsCount">12</strong>
-                <small>Items Recycled</small>
-            </div>
-
-            <div>
-                <strong id="plasticCount">4.8</strong>
-                <small>kg Plastic Saved</small>
-            </div>
-
-            <div>
-                <strong id="co2Count">8.2</strong>
-                <small>kg CO₂ Reduced</small>
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     QUICK ACTIONS
-========================= -->
-
-<section class="section">
-
-    <div class="section-heading">
-
-        <div>
-            <small>QUICK ACTIONS</small>
-            <h2>What would you like to do?</h2>
-        </div>
-
-    </div>
-
-
-    <div class="action-grid">
-
-        <a href="#scanner" class="action-card scan-action">
-
-            <div class="action-icon">
-                🤖
-            </div>
-
-            <div>
-                <h3>Scan Waste</h3>
-                <p>
-                    Let AI identify your waste.
-                </p>
-            </div>
-
-            <span>→</span>
-
-        </a>
-
-
-        <a href="#centers" class="action-card">
-
-            <div class="action-icon">
-                📍
-            </div>
-
-            <div>
-                <h3>Find Recycler</h3>
-                <p>
-                    Discover nearby recycling centers.
-                </p>
-            </div>
-
-            <span>→</span>
-
-        </a>
-
-
-        <a href="#rewards" class="action-card">
-
-            <div class="action-icon">
-                🎁
-            </div>
-
-            <div>
-                <h3>View Rewards</h3>
-                <p>
-                    Redeem your EcoPoints.
-                </p>
-            </div>
-
-            <span>→</span>
-
-        </a>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     AI SCANNER
-========================= -->
-
-<section class="section scanner-section"
-         id="scanner">
-
-    <div class="section-heading center">
-
-        <small>AI TECHNOLOGY</small>
-
-        <h2>
-            Smart Waste Scanner
-        </h2>
-
-        <p>
-            Upload an image of waste and EcoLoop AI
-            will identify the material.
-        </p>
-
-    </div>
-
-
-    <div class="scanner-container">
-
-
-        <!-- Upload area -->
-
-        <div class="upload-box"
-             id="uploadBox">
-
-            <div class="upload-icon">
-                📷
-            </div>
-
-            <h3>
-                Scan your waste
-            </h3>
-
-            <p>
-                Upload a photo or use your camera
-            </p>
-
-            <label class="upload-btn">
-
-                Choose Image
-
-                <input
-                    type="file"
-                    id="imageInput"
-                    accept="image/*"
-                    hidden>
-
-            </label>
-
-            <button
-                class="camera-btn"
-                id="cameraBtn">
-                📸 Use Camera
+            <button onclick="login()" class="primary-btn">
+                Login
             </button>
 
-        </div>
-
-
-        <!-- Preview -->
-
-        <div class="preview-box"
-             id="previewBox">
-
-            <div class="preview-placeholder">
-                <span>♻</span>
-                <p>
-                    Your image preview will appear here
-                </p>
-            </div>
-
-            <img
-                id="previewImage"
-                alt="Waste preview">
-
-        </div>
-
-
-    </div>
-
-
-    <!-- Scan result -->
-
-    <div class="scan-result"
-         id="scanResult">
-
-        <div class="result-icon">
-            ♻
-        </div>
-
-        <div class="result-content">
-
-            <small>AI RESULT</small>
-
-            <h3 id="resultTitle">
-                Plastic Bottle
-            </h3>
-
-            <p id="resultDescription">
-                This item can usually be recycled.
-            </p>
-
-            <div class="result-tags">
-
-                <span>Recyclable</span>
-
-                <span id="confidence">
-                    94% Confidence
-                </span>
-
-            </div>
-
-        </div>
-
-        <button
-            class="reward-btn"
-            id="recycleBtn">
-
-            +25 Points
-
-        </button>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     IMPACT
-========================= -->
-
-<section class="section impact-section">
-
-    <div class="section-heading">
-
-        <div>
-            <small>YOUR CONTRIBUTION</small>
-
-            <h2>
-                Your environmental impact
-            </h2>
-        </div>
-
-    </div>
-
-
-    <div class="impact-grid">
-
-        <div class="impact-card">
-
-            <div class="impact-number">
-                <span id="impactItems">12</span>
-            </div>
-
-            <h3>
-                Items Recycled
-            </h3>
-
-            <p>
-                Every item keeps useful material
-                away from landfills.
+            <p class="switch-text">
+                Don't have an account?
+                <span onclick="showRegister()">Create account</span>
             </p>
 
         </div>
 
 
-        <div class="impact-card">
+        <!-- REGISTER -->
 
-            <div class="impact-number">
-                <span id="impactPlastic">4.8</span>
-                <small>kg</small>
-            </div>
+        <div id="registerForm" class="hidden">
 
-            <h3>
-                Plastic Saved
-            </h3>
+            <h2>Create Account</h2>
 
-            <p>
-                Estimated plastic diverted from waste.
-            </p>
+            <input
+                type="text"
+                id="registerName"
+                placeholder="Full name">
 
-        </div>
+            <input
+                type="email"
+                id="registerEmail"
+                placeholder="Email address">
 
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="Password">
 
-        <div class="impact-card">
-
-            <div class="impact-number">
-                <span id="impactCO2">8.2</span>
-                <small>kg</small>
-            </div>
-
-            <h3>
-                CO₂ Reduced
-            </h3>
-
-            <p>
-                Estimated environmental impact.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     REWARDS
-========================= -->
-
-<section class="section rewards-section"
-         id="rewards">
-
-    <div class="section-heading">
-
-        <div>
-            <small>REWARD PROGRAM</small>
-
-            <h2>
-                Turn recycling into rewards.
-            </h2>
-        </div>
-
-        <div class="points-badge">
-            ⭐ <span id="rewardPoints">250</span>
-        </div>
-
-    </div>
-
-
-    <div class="rewards-grid">
-
-
-        <div class="reward-card">
-
-            <div class="reward-image">
-                ☕
-            </div>
-
-            <div class="reward-content">
-
-                <span class="reward-type">
-                    PARTNER REWARD
-                </span>
-
-                <h3>
-                    Free Coffee
-                </h3>
-
-                <p>
-                    Get a free beverage from
-                    participating partners.
-                </p>
-
-                <button
-                    class="redeem-btn"
-                    data-cost="100">
-
-                    Redeem · 100 Points
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="reward-card">
-
-            <div class="reward-image">
-                🎟️
-            </div>
-
-            <div class="reward-content">
-
-                <span class="reward-type">
-                    ECO REWARD
-                </span>
-
-                <h3>
-                    Eco Shopping Voucher
-                </h3>
-
-                <p>
-                    Get discounts on sustainable
-                    products.
-                </p>
-
-                <button
-                    class="redeem-btn"
-                    data-cost="200">
-
-                    Redeem · 200 Points
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="reward-card">
-
-            <div class="reward-image">
-                🌱
-            </div>
-
-            <div class="reward-content">
-
-                <span class="reward-type">
-                    IMPACT REWARD
-                </span>
-
-                <h3>
-                    Plant a Tree
-                </h3>
-
-                <p>
-                    Use your points to support
-                    tree-planting initiatives.
-                </p>
-
-                <button
-                    class="redeem-btn"
-                    data-cost="300">
-
-                    Redeem · 300 Points
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     RECYCLING CENTERS
-========================= -->
-
-<section class="section"
-         id="centers">
-
-    <div class="section-heading center">
-
-        <small>RECYCLING NETWORK</small>
-
-        <h2>
-            Find a recycling center
-        </h2>
-
-        <p>
-            Choose a nearby collection option.
-        </p>
-
-    </div>
-
-
-    <div class="center-grid">
-
-
-        <div class="center-card">
-
-            <div class="center-icon">
-                ♻
-            </div>
-
-            <div>
-
-                <h3>
-                    GreenCycle Center
-                </h3>
-
-                <p>
-                    Plastic · Paper · E-waste
-                </p>
-
-                <small>
-                    📍 1.8 km away
-                </small>
-
-            </div>
-
-            <button
-                onclick="openMap()">
-
-                Directions
-
+            <button onclick="register()" class="primary-btn">
+                Create Account
             </button>
 
-        </div>
-
-
-        <div class="center-card">
-
-            <div class="center-icon">
-                🌱
-            </div>
-
-            <div>
-
-                <h3>
-                    EcoDrop Station
-                </h3>
-
-                <p>
-                    Plastic · Glass · Metal
-                </p>
-
-                <small>
-                    📍 2.4 km away
-                </small>
-
-            </div>
-
-            <button
-                onclick="openMap()">
-
-                Directions
-
-            </button>
+            <p class="switch-text">
+                Already have an account?
+                <span onclick="showLogin()">Login</span>
+            </p>
 
         </div>
 
-
-        <div class="center-card">
-
-            <div class="center-icon">
-                🔋
-            </div>
-
-            <div>
-
-                <h3>
-                    TechRecycle Hub
-                </h3>
-
-                <p>
-                    Batteries · Electronics
-                </p>
-
-                <small>
-                    📍 3.1 km away
-                </small>
-
-            </div>
-
-            <button
-                onclick="openMap()">
-
-                Directions
-
-            </button>
-
-        </div>
+        <p id="authMessage"></p>
 
     </div>
-
-</section>
-
-
-
-<!-- =========================
-     CTA
-========================= -->
-
-<section class="cta">
-
-    <div>
-
-        <div class="cta-icon">
-            ♻
-        </div>
-
-        <h2>
-            Start your recycling journey.
-        </h2>
-
-        <p>
-            Small actions today can create
-            a cleaner tomorrow.
-        </p>
-
-        <a href="#scanner"
-           class="primary-btn">
-
-            Scan Your First Item
-
-        </a>
-
-    </div>
-
-</section>
-
-
-</main>
-
-
-
-<!-- =========================
-     MOBILE NAV
-========================= -->
-
-<div class="mobile-nav">
-
-    <a href="#dashboard">
-        <span>⌂</span>
-        Home
-    </a>
-
-    <a href="#scanner">
-        <span>🤖</span>
-        Scan
-    </a>
-
-    <a href="#rewards">
-        <span>🎁</span>
-        Rewards
-    </a>
-
-    <a href="#centers">
-        <span>📍</span>
-        Centers
-    </a>
 
 </div>
 
 
+<!-- ================= MAIN APP ================= -->
 
-<!-- =========================
-     TOAST
-========================= -->
+<div id="app" class="hidden">
 
-<div class="toast"
-     id="toast">
+    <!-- SIDEBAR -->
 
-    <span>✓</span>
+    <aside class="sidebar">
 
-    <p id="toastMessage">
-        Success!
-    </p>
+        <div class="sidebar-logo">
+            ♻️
+            <strong>EcoLoop AI</strong>
+        </div>
+
+        <nav>
+
+            <button onclick="showPage('dashboard')" class="nav-item active">
+                <i class="fa-solid fa-house"></i>
+                Dashboard
+            </button>
+
+            <button onclick="showPage('scanner')" class="nav-item">
+                <i class="fa-solid fa-camera"></i>
+                AI Scanner
+            </button>
+
+            <button onclick="showPage('recycling')" class="nav-item">
+                <i class="fa-solid fa-recycle"></i>
+                Recycling
+            </button>
+
+            <button onclick="showPage('impact')" class="nav-item">
+                <i class="fa-solid fa-leaf"></i>
+                My Impact
+            </button>
+
+            <button onclick="showPage('rewards')" class="nav-item">
+                <i class="fa-solid fa-gift"></i>
+                Rewards
+            </button>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <button onclick="toggleTheme()" class="nav-item">
+                <i class="fa-solid fa-moon"></i>
+                Dark Mode
+            </button>
+
+            <button onclick="logout()" class="nav-item logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main">
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <button class="mobile-menu" onclick="toggleSidebar()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div>
+                <h2 id="pageTitle">Dashboard</h2>
+                <p>Make every item count for the planet 🌍</p>
+            </div>
+
+            <div class="profile">
+
+                <div class="profile-avatar" id="profileAvatar">
+                    U
+                </div>
+
+                <div>
+                    <strong id="profileName">
+                        User
+                    </strong>
+
+                    <small id="profileEmail">
+                        user@email.com
+                    </small>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="dashboard" class="page">
+
+            <div class="welcome-card">
+
+                <div>
+
+                    <p class="small-title">
+                        ECOLOOP AI
+                    </p>
+
+                    <h1>
+                        Recycle smarter.<br>
+                        Live greener. 🌱
+                    </h1>
+
+                    <p>
+                        Scan waste with AI and discover the
+                        right way to dispose of it.
+                    </p>
+
+                    <button
+                        onclick="showPage('scanner')"
+                        class="primary-btn">
+                        <i class="fa-solid fa-camera"></i>
+                        Scan Waste
+                    </button>
+
+                </div>
+
+                <div class="welcome-icon">
+                    ♻️
+                </div>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fa-solid fa-recycle"></i>
+                    </div>
+
+                    <div>
+                        <span>Items Recycled</span>
+                        <strong id="itemsRecycled">0</strong>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+
+                    <div>
+                        <span>EcoPoints</span>
+                        <strong id="ecoPoints">0</strong>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <i class="fa-solid fa-cloud"></i>
+                    </div>
+
+                    <div>
+                        <span>CO₂ Saved</span>
+                        <strong id="co2Saved">0 kg</strong>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+
+                    <div>
+                        <span>Eco Level</span>
+                        <strong id="ecoLevel">Beginner</strong>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="section-title">
+                <h2>Quick Actions</h2>
+            </div>
+
+
+            <div class="quick-grid">
+
+                <div
+                    class="quick-card"
+                    onclick="showPage('scanner')">
+
+                    <i class="fa-solid fa-camera"></i>
+
+                    <h3>AI Scanner</h3>
+
+                    <p>
+                        Identify waste using your camera.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="quick-card"
+                    onclick="showPage('recycling')">
+
+                    <i class="fa-solid fa-location-dot"></i>
+
+                    <h3>Find Recycling</h3>
+
+                    <p>
+                        Find recycling options near you.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="quick-card"
+                    onclick="showPage('rewards')">
+
+                    <i class="fa-solid fa-gift"></i>
+
+                    <h3>Rewards</h3>
+
+                    <p>
+                        Use your EcoPoints for rewards.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SCANNER ================= -->
+
+        <section id="scanner" class="page hidden">
+
+            <div class="scanner-header">
+
+                <div>
+                    <p class="small-title">
+                        AI POWERED
+                    </p>
+
+                    <h1>
+                        Waste Scanner
+                    </h1>
+
+                    <p>
+                        Take a photo or upload an image.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="scanner-container">
+
+                <div class="camera-box">
+
+                    <video
+                        id="camera"
+                        autoplay
+                        playsinline>
+                    </video>
+
+                    <canvas id="canvas"></canvas>
+
+                    <div id="cameraPlaceholder">
+
+                        <i class="fa-solid fa-camera"></i>
+
+                        <h3>
+                            Camera Ready
+                        </h3>
+
+                        <p>
+                            Start camera to scan waste
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="scanner-buttons">
+
+                    <button
+                        onclick="startCamera()"
+                        class="primary-btn">
+
+                        <i class="fa-solid fa-video"></i>
+                        Start Camera
+
+                    </button>
+
+
+                    <button
+                        onclick="captureImage()"
+                        class="secondary-btn">
+
+                        <i class="fa-solid fa-camera"></i>
+                        Capture
+
+                    </button>
+
+
+                    <label class="upload-btn">
+
+                        <i class="fa-solid fa-upload"></i>
+                        Upload Image
+
+                        <input
+                            type="file"
+                            id="imageUpload"
+                            accept="image/*"
+                            onchange="handleUpload(event)"
+                            hidden>
+
+                    </label>
+
+                </div>
+
+
+                <div
+                    id="scanResult"
+                    class="scan-result hidden">
+
+                    <h2>
+                        AI Result 🤖
+                    </h2>
+
+                    <div class="result-icon">
+                        ♻️
+                    </div>
+
+                    <h3 id="wasteName">
+                        Waste
+                    </h3>
+
+                    <p id="wasteCategory">
+                        Category
+                    </p>
+
+                    <div class="disposal-box">
+
+                        <strong>
+                            Recommended Action
+                        </strong>
+
+                        <p id="disposalAdvice">
+                            -
+                        </p>
+
+                    </div>
+
+                    <button
+                        onclick="addRecycledItem()"
+                        class="primary-btn">
+
+                        <i class="fa-solid fa-plus"></i>
+                        Add to My Impact
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= RECYCLING ================= -->
+
+        <section id="recycling" class="page hidden">
+
+            <div class="section-title">
+
+                <div>
+                    <p class="small-title">
+                        LOCAL RECYCLING
+                    </p>
+
+                    <h1>
+                        Find Recycling Centers
+                    </h1>
+
+                    <p>
+                        Discover recycling options near your location.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="location-card">
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                <div>
+
+                    <h3>
+                        Find centers near me
+                    </h3>
+
+                    <p>
+                        Use your location to search nearby recycling centers.
+                    </p>
+
+                </div>
+
+                <button
+                    onclick="findRecycling()"
+                    class="primary-btn">
+
+                    Find Near Me
+
+                </button>
+
+            </div>
+
+
+            <div id="mapResult" class="map-result hidden">
+
+                <h2>
+                    Nearby Recycling Search
+                </h2>
+
+                <p id="locationText"></p>
+
+                <a
+                    id="mapLink"
+                    target="_blank"
+                    class="primary-btn">
+
+                    Open in Maps
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= IMPACT ================= -->
+
+        <section id="impact" class="page hidden">
+
+            <div class="section-title">
+
+                <p class="small-title">
+                    YOUR ENVIRONMENTAL IMPACT
+                </p>
+
+                <h1>
+                    My Impact 🌍
+                </h1>
+
+            </div>
+
+
+            <div class="impact-card">
+
+                <div class="impact-circle">
+
+                    <span id="impactItems">
+                        0
+                    </span>
+
+                    <small>
+                        Items
+                    </small>
+
+                </div>
+
+
+                <div class="impact-info">
+
+                    <h2>
+                        You're making a difference!
+                    </h2>
+
+                    <p>
+                        Every recycled item helps reduce waste
+                        and protect our environment.
+                    </p>
+
+                    <div class="progress">
+
+                        <div
+                            id="impactProgress">
+                        </div>
+
+                    </div>
+
+                    <p>
+                        <span id="impactText">
+                            Start recycling to build your impact.
+                        </span>
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <span>Plastic Saved</span>
+                    <strong id="plasticSaved">
+                        0 kg
+                    </strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>CO₂ Reduced</span>
+                    <strong id="impactCO2">
+                        0 kg
+                    </strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>EcoPoints</span>
+                    <strong id="impactPoints">
+                        0
+                    </strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= REWARDS ================= -->
+
+        <section id="rewards" class="page hidden">
+
+            <div class="section-title">
+
+                <p class="small-title">
+                    ECO REWARDS
+                </p>
+
+                <h1>
+                    Your Rewards 🎁
+                </h1>
+
+                <p>
+                    Earn points by recycling responsibly.
+                </p>
+
+            </div>
+
+
+            <div class="points-card">
+
+                <span>
+                    Your EcoPoints
+                </span>
+
+                <strong id="rewardPoints">
+                    0
+                </strong>
+
+                <p>
+                    Keep recycling to unlock rewards!
+                </p>
+
+            </div>
+
+
+            <div class="rewards-grid">
+
+                <div class="reward-card">
+
+                    <div class="reward-icon">
+                        ☕
+                    </div>
+
+                    <h3>
+                        Eco Coffee Coupon
+                    </h3>
+
+                    <p>
+                        500 EcoPoints
+                    </p>
+
+                    <button
+                        onclick="redeemReward(500)"
+                        class="secondary-btn">
+
+                        Redeem
+
+                    </button>
+
+                </div>
+
+
+                <div class="reward-card">
+
+                    <div class="reward-icon">
+                        🌱
+                    </div>
+
+                    <h3>
+                        Plant a Tree
+                    </h3>
+
+                    <p>
+                        1000 EcoPoints
+                    </p>
+
+                    <button
+                        onclick="redeemReward(1000)"
+                        class="secondary-btn">
+
+                        Redeem
+
+                    </button>
+
+                </div>
+
+
+                <div class="reward-card">
+
+                    <div class="reward-icon">
+                        🛍️
+                    </div>
+
+                    <h3>
+                        Eco Shopping Voucher
+                    </h3>
+
+                    <p>
+                        2000 EcoPoints
+                    </p>
+
+                    <button
+                        onclick="redeemReward(2000)"
+                        class="secondary-btn">
+
+                        Redeem
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
 
 </div>
 
 
-
-<script src="script.js"></script>
+<script src="app.js"></script>
 
 </body>
 </html>
